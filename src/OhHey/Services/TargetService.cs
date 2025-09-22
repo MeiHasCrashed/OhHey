@@ -13,6 +13,8 @@ public class TargetService
 
     public List<TargetEvent> CurrentTargets { get; } = [];
 
+    public List<TargetEvent> TargetHistory { get; } = [];
+
     public TargetService(IPluginLog logger, TargetListener targetListener)
     {
         _logger = logger;
@@ -22,12 +24,35 @@ public class TargetService
         _targetListener.TargetRemoved += OnTargetRemoved;
     }
 
+    private void PushToHistory(TargetEvent evt)
+    {
+        var position = TargetHistory.FindIndex(target => target.GameObjectId == evt.GameObjectId);
+        if (position != -1)
+        {
+            TargetHistory.RemoveAt(position);
+        }
+        var targetEvent = evt with
+        {
+            Timestamp = DateTime.Now
+        };
+        if (TargetHistory.Count > 10)
+        {
+            TargetHistory.RemoveAt(0);
+        }
+        TargetHistory.Add(targetEvent);
+    }
+
     private void OnTarget(object? sender, TargetEvent e)
     {
         if (CurrentTargets.Exists(target => target.GameObjectId == e.GameObjectId))
         {
             _logger.Warning("Received duplicate target event for {Name} ({GameObjectId})", e.Name, e.GameObjectId);
             return;
+        }
+        var position = TargetHistory.FindIndex(target => target.GameObjectId == e.GameObjectId);
+        if (position != -1)
+        {
+            TargetHistory.RemoveAt(position);
         }
         CurrentTargets.Add(e);
         _logger.Debug("Targeted by {Name} (ID: {GameObjectId} Self: {IsSelf})", e.Name, e.GameObjectId, e.IsSelf);
@@ -41,7 +66,10 @@ public class TargetService
             _logger.Warning("Received target removed event for unknown GameObjectId {GameObjectId}", e);
             return;
         }
-        _logger.Debug("No longer targeted by {Name} (ID: {GameObjectId} Self: {IsSelf})", CurrentTargets[position].Name, CurrentTargets[position].GameObjectId, CurrentTargets[position].IsSelf);
+        var target = CurrentTargets[position];
+        _logger.Debug("No longer targeted by {Name} (ID: {GameObjectId} Self: {IsSelf})",
+            target.Name, target.GameObjectId, target.IsSelf);
         CurrentTargets.RemoveAt(position);
+        PushToHistory(target);
     }
 }

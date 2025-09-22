@@ -67,7 +67,7 @@ public class TargetListener : IDisposable
         {
             _lastTargetingPlayers.Add(targetingPlayer.GameObjectId);
             var targetEvent = new TargetEvent(targetingPlayer.GameObjectId, targetingPlayer.Name.ToString(),
-                targetingPlayer.Name, targetingPlayer.GameObjectId == currentPlayer.GameObjectId);
+                targetingPlayer.Name, targetingPlayer.GameObjectId == currentPlayer.GameObjectId, DateTime.Now);
             OnTarget(targetEvent);
         }
 

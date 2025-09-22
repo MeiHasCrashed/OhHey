@@ -5,4 +5,4 @@ using Dalamud.Game.Text.SeStringHandling;
 
 namespace OhHey.Listeners;
 
-public record TargetEvent(ulong GameObjectId, string Name, SeString SeName, bool IsSelf);
+public record TargetEvent(ulong GameObjectId, string Name, SeString SeName, bool IsSelf, DateTime Timestamp);
