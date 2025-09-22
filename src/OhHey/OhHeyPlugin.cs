@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OhHey.Core.IoC;
 using OhHey.Listeners;
 using OhHey.Services;
+using OhHey.UI;
 
 namespace OhHey;
 
@@ -27,10 +28,13 @@ public class OhHeyPlugin : IDalamudPlugin
             .AddDalamudService<IObjectTable>()
             .AddDalamudService<ITargetManager>()
             .AddSingleton<TargetListener>()
-            .AddSingleton<TargetService>();
+            .AddSingleton<TargetService>()
+            .AddDalamudWindow<MainWindow>()
+            .AddSingleton<KeyedWindowService>()
+            .AddSingleton<WindowService>();
 
         _provider = services.BuildServiceProvider();
-        _ = _provider.GetRequiredService<TargetService>();
+        _ = _provider.GetRequiredService<WindowService>();
     }
 
     public void Dispose()
