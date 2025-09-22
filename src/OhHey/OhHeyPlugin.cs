@@ -27,6 +27,7 @@ public class OhHeyPlugin : IDalamudPlugin
             .AddDalamudService<IClientState>()
             .AddDalamudService<IObjectTable>()
             .AddDalamudService<ITargetManager>()
+            .AddDalamudService<IChatGui>()
             .AddSingleton<TargetListener>()
             .AddSingleton<TargetService>()
             .AddDalamudWindow<MainWindow>()

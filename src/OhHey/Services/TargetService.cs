@@ -1,24 +1,27 @@
 ﻿// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using OhHey.Listeners;
 
 namespace OhHey.Services;
 
-public class TargetService
+public class TargetService : IDisposable
 {
     private readonly IPluginLog _logger;
     private readonly TargetListener _targetListener;
+    private readonly IChatGui _chatGui;
 
     public List<TargetEvent> CurrentTargets { get; } = [];
 
     public List<TargetEvent> TargetHistory { get; } = [];
 
-    public TargetService(IPluginLog logger, TargetListener targetListener)
+    public TargetService(IPluginLog logger, TargetListener targetListener, IChatGui chatGui)
     {
         _logger = logger;
         _targetListener = targetListener;
+        _chatGui = chatGui;
 
         _targetListener.Target += OnTarget;
         _targetListener.TargetRemoved += OnTargetRemoved;
@@ -56,6 +59,7 @@ public class TargetService
         }
         CurrentTargets.Add(e);
         _logger.Debug("Targeted by {Name} (ID: {GameObjectId} Self: {IsSelf})", e.Name, e.GameObjectId, e.IsSelf);
+        SendNotification(e);
     }
 
     private void OnTargetRemoved(object? sender, ulong e)
@@ -71,5 +75,23 @@ public class TargetService
             target.Name, target.GameObjectId, target.IsSelf);
         CurrentTargets.RemoveAt(position);
         PushToHistory(target);
+    }
+
+    private void SendNotification(TargetEvent evt)
+    {
+        var chatMessage = new SeStringBuilder()
+            .AddUiForeground("[Oh Hey!] ", 537)
+            .AddUiForegroundOff()
+            .Append(evt.SeName)
+            .AddText(" is targeting you!")
+            .Build();
+        _chatGui.Print(chatMessage);
+    }
+
+    public void Dispose()
+    {
+        _targetListener.Target -= OnTarget;
+        _targetListener.TargetRemoved -= OnTargetRemoved;
+        GC.SuppressFinalize(this);
     }
 }
