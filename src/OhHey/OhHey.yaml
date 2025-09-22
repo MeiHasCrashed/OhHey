@@ -1,0 +1,10 @@
+﻿name: Oh Hey
+author: Mei
+punchline: Ever wanted to get notified when someone targets you or emotes at you? Now you can !
+description: |-
+  Ever wanted to get notified when someone targets you or emotes at you? Now you can !
+
+  Commands:
+    /ohhey - Opens the main window
+
+repo_url: https://github.com/MeiHasCrashed/OhHey
