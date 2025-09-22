@@ -1,9 +1,14 @@
 ﻿// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Dalamud.Game.ClientState.Objects;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+using OhHey.Core.IoC;
+using OhHey.Listeners;
+using OhHey.Services;
 
 namespace OhHey;
 
@@ -14,9 +19,18 @@ public class OhHeyPlugin : IDalamudPlugin
     public OhHeyPlugin(IDalamudPluginInterface pluginInterface)
     {
         var services = new ServiceCollection();
-        services.AddSingleton(pluginInterface);
+        services
+            .AddSingleton(pluginInterface)
+            .AddDalamudService<IPluginLog>()
+            .AddDalamudService<IFramework>()
+            .AddDalamudService<IClientState>()
+            .AddDalamudService<IObjectTable>()
+            .AddDalamudService<ITargetManager>()
+            .AddSingleton<TargetListener>()
+            .AddSingleton<TargetService>();
 
         _provider = services.BuildServiceProvider();
+        _ = _provider.GetRequiredService<TargetService>();
     }
 
     public void Dispose()
