@@ -2,19 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Dalamud.Plugin;
-using Dalamud.Plugin.Services;
+using JetBrains.Annotations;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OhHey;
 
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
 public class OhHeyPlugin : IDalamudPlugin
 {
-    public OhHeyPlugin(IPluginLog logger)
+    private readonly IServiceProvider _provider;
+    public OhHeyPlugin(IDalamudPluginInterface pluginInterface)
     {
-        logger.Info("OhHey loading started.");
+        var services = new ServiceCollection();
+        services.AddSingleton(pluginInterface);
+
+        _provider = services.BuildServiceProvider();
     }
 
     public void Dispose()
     {
-
+        (_provider as IDisposable)?.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

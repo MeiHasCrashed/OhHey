@@ -6,10 +6,17 @@
         <PackageProjectUrl>https://github.com/MeiHasCrashed/OhHey</PackageProjectUrl>
         <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
         <IsPackable>false</IsPackable>
+        <ImplicitUsings>true</ImplicitUsings>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
       <Content Include="OhHey.yaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-rc.1.25451.107" />
     </ItemGroup>
 
 </Project>

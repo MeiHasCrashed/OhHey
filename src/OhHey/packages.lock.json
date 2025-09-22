@@ -13,6 +13,26 @@
         "requested": "[1.2.25, )",
         "resolved": "1.2.25",
         "contentHash": "xCXiw7BCxHJ8pF6wPepRUddlh2dlQlbr81gXA72hdk4FLHkKXas7EH/n+fk5UCA/YfMqG1Z6XaPiUjDbUNBUzg=="
+      },
+      "JetBrains.Annotations": {
+        "type": "Direct",
+        "requested": "[2025.2.2, )",
+        "resolved": "2025.2.2",
+        "contentHash": "0X56ZRizuHdrnPpgXjWV7f2tQO1FlQg5O1967OGKnI/4ZRNOK642J8L7brM1nYvrxTTU5TP1yRyXLRLaXLPQ8A=="
+      },
+      "Microsoft.Extensions.DependencyInjection": {
+        "type": "Direct",
+        "requested": "[10.0.0-rc.1.25451.107, )",
+        "resolved": "10.0.0-rc.1.25451.107",
+        "contentHash": "LyE1mwZNT30J/6ygkZZm6QlDRaKpwQf5dHkREGAlJQr75kz1VGx0RI/cxa6kevnuYaLNE5UtgtGT2Amp+dFT1Q==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0-rc.1.25451.107"
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.0-rc.1.25451.107",
+        "contentHash": "Wm2HfC0GlWExQmJajq85FHM9iHEOm61Z1c2YLivbzI6R5eT+TTSyfk3RHUra4oBU+oj1XhOIQ5hLW6Kg2r85tg=="
       }
     }
   }
