@@ -7,20 +7,61 @@ using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
+using JetBrains.Annotations;
 using OhHey.Services;
 
 namespace OhHey.UI;
 
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
 public class MainWindow : Window
 {
     private readonly TargetService _targetService;
+    private readonly EmoteService _emoteService;
 
-    public MainWindow(TargetService targetService) : base("Oh Hey!##ohhey_main_window")
+    public MainWindow(TargetService targetService, EmoteService emoteService) : base("Oh Hey!##ohhey_main_window")
     {
         _targetService = targetService;
+        _emoteService = emoteService;
+
+        SizeConstraints = new WindowSizeConstraints
+        {
+            MinimumSize = new Vector2(ImGui.CalcTextSize("00:00:00 A name that is 20 char used Emote Name here").X + 30, 320)
+        };
     }
 
     public override void Draw()
+    {
+        using var tabBar = ImRaii.TabBar("##ohhey_main_tab_bar");
+        if(ImGui.BeginTabItem("Targets##ohhey_targets_tab"))
+        {
+            DrawTargetUi();
+            ImGui.EndTabItem();
+        }
+        if(ImGui.BeginTabItem("Emotes##ohhey_emotes_tab"))
+        {
+            DrawEmoteUi();
+            ImGui.EndTabItem();
+        }
+    }
+
+    private void DrawEmoteUi()
+    {
+        ImGui.TextUnformatted("Emote History");
+        ImGui.Separator();
+        const int length = EmoteService.MaxEmoteHistory + 1;
+        using (ImRaii.ListBox("##ohhey_emote_list",
+                   new Vector2(ImGui.CalcTextSize("00:00:00 A name that is 20 char used Emote Name here").X,
+                       length * ImGui.GetTextLineHeightWithSpacing())))
+        {
+            ImGui.PushItemWidth(-1);
+            foreach (var emote in _emoteService.EmoteHistory)
+            {
+                ImGui.TextUnformatted($"{emote.Timestamp:HH:mm:ss} {emote.InitiatorName} used {emote.EmoteName.ToString()}");
+            }
+        }
+    }
+
+    private void DrawTargetUi()
     {
         ImGui.TextUnformatted("Target History");
         ImGui.Separator();

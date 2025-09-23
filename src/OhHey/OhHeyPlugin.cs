@@ -14,7 +14,7 @@ using OhHey.UI;
 namespace OhHey;
 
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
-public class OhHeyPlugin : IDalamudPlugin
+public sealed class OhHeyPlugin : IDalamudPlugin
 {
     private readonly IServiceProvider _provider;
     public OhHeyPlugin(IDalamudPluginInterface pluginInterface)
@@ -27,7 +27,11 @@ public class OhHeyPlugin : IDalamudPlugin
             .AddDalamudService<IClientState>()
             .AddDalamudService<IObjectTable>()
             .AddDalamudService<ITargetManager>()
+            .AddDalamudService<IGameInteropProvider>()
+            .AddDalamudService<IDataManager>()
             .AddDalamudService<IChatGui>()
+            .AddSingleton<EmoteListener>()
+            .AddSingleton<EmoteService>()
             .AddSingleton<TargetListener>()
             .AddSingleton<TargetService>()
             .AddDalamudWindow<MainWindow>()
@@ -36,11 +40,11 @@ public class OhHeyPlugin : IDalamudPlugin
 
         _provider = services.BuildServiceProvider();
         _ = _provider.GetRequiredService<WindowService>();
+        _ = _provider.GetRequiredService<EmoteListener>();
     }
 
     public void Dispose()
     {
         (_provider as IDisposable)?.Dispose();
-        GC.SuppressFinalize(this);
     }
 }
