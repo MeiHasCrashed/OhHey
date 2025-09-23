@@ -7,7 +7,7 @@ using OhHey.Listeners;
 
 namespace OhHey.Services;
 
-public class TargetService : IDisposable
+public sealed class TargetService : IDisposable
 {
     private readonly IPluginLog _logger;
     private readonly TargetListener _targetListener;
@@ -92,6 +92,5 @@ public class TargetService : IDisposable
     {
         _targetListener.Target -= OnTarget;
         _targetListener.TargetRemoved -= OnTargetRemoved;
-        GC.SuppressFinalize(this);
     }
 }

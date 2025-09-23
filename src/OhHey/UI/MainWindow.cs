@@ -17,15 +17,17 @@ public class MainWindow : Window
 {
     private readonly TargetService _targetService;
     private readonly EmoteService _emoteService;
+    private readonly float _textWidth;
 
     public MainWindow(TargetService targetService, EmoteService emoteService) : base("Oh Hey!##ohhey_main_window")
     {
         _targetService = targetService;
         _emoteService = emoteService;
+        _textWidth = ImGui.CalcTextSize("00:00:00 A name that is 20 char used Emote Name here").X;
 
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(ImGui.CalcTextSize("00:00:00 A name that is 20 char used Emote Name here").X + 30, 320)
+            MinimumSize = new Vector2(_textWidth + ImGui.GetStyle().WindowPadding.X * 2, 310)
         };
     }
 
@@ -50,7 +52,7 @@ public class MainWindow : Window
         ImGui.Separator();
         const int length = EmoteService.MaxEmoteHistory + 1;
         using (ImRaii.ListBox("##ohhey_emote_list",
-                   new Vector2(ImGui.CalcTextSize("00:00:00 A name that is 20 char used Emote Name here").X,
+                   new Vector2(_textWidth,
                        length * ImGui.GetTextLineHeightWithSpacing())))
         {
             ImGui.PushItemWidth(-1);
@@ -65,12 +67,14 @@ public class MainWindow : Window
     {
         ImGui.TextUnformatted("Target History");
         ImGui.Separator();
-        var length = Math.Clamp(_targetService.CurrentTargets.Count + _targetService.TargetHistory.Count, 5, 20);
-        using (ImRaii.ListBox("##ohhey_target_list", new Vector2(ImGui.GetWindowWidth() - ImGui.GetStyle().WindowPadding.X * 2, length * ImGui.GetTextLineHeightWithSpacing())))
+        var length = Math.Clamp(_targetService.CurrentTargets.Count + _targetService.TargetHistory.Count + 1, 10, 20) +1;
+        using (ImRaii.ListBox("##ohhey_target_list", new Vector2(_textWidth, length * ImGui.GetTextLineHeightWithSpacing())))
         {
             ImGui.PushItemWidth(-1);
-            foreach (var target in _targetService.CurrentTargets)
+
+            for (var i = _targetService.CurrentTargets.Count - 1; i >= 0; i--)
             {
+                var target = _targetService.CurrentTargets[i];
                 ImGui.TextUnformatted($"{target.Timestamp:HH:mm:ss} {target.Name}");
             }
 
@@ -78,8 +82,10 @@ public class MainWindow : Window
             {
                 ImGui.Separator();
             }
-            foreach (var target in _targetService.TargetHistory)
+
+            for (var i = _targetService.TargetHistory.Count - 1; i >= 0; i--)
             {
+                var target = _targetService.TargetHistory[i];
                 ImGui.TextColored(KnownColor.LightGray.Vector(), $"{target.Timestamp:HH:mm:ss} {target.Name}");
             }
             ImGui.PopItemWidth();
