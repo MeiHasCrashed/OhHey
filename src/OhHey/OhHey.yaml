@@ -8,3 +8,7 @@ description: |-
     /ohhey - Opens the main window
 
 repo_url: https://github.com/MeiHasCrashed/OhHey
+tags:
+  - notification
+  - emote
+  - target
