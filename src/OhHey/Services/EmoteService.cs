@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using OhHey.Listeners;
 
@@ -12,13 +13,15 @@ public sealed class EmoteService : IDisposable
 
     private readonly IPluginLog _logger;
     private readonly EmoteListener _emoteListener;
+    private readonly IChatGui _chatGui;
 
     public LinkedList<EmoteEvent> EmoteHistory { get; } = [];
 
-    public EmoteService(IPluginLog logger, EmoteListener emoteListener)
+    public EmoteService(IPluginLog logger, EmoteListener emoteListener, IChatGui chatGui)
     {
         _logger = logger;
         _emoteListener = emoteListener;
+        _chatGui = chatGui;
 
         _emoteListener.Emote += OnEmote;
     }
@@ -31,6 +34,7 @@ public sealed class EmoteService : IDisposable
             e.TargetName?.ToString() ?? "Unknown", e.TargetId);
         if (!e.TargetSelf) return;
         AddEmoteToHistory(e);
+        NotifyEmoteUsed(e);
     }
 
     private void AddEmoteToHistory(EmoteEvent e)
@@ -40,6 +44,20 @@ public sealed class EmoteService : IDisposable
             EmoteHistory.RemoveLast();
         }
         EmoteHistory.AddFirst(e);
+    }
+
+    private void NotifyEmoteUsed(EmoteEvent e)
+    {
+        var chatMessage = new SeStringBuilder()
+            .AddUiForeground("[Oh Hey!] ", 537)
+            .AddUiForegroundOff()
+            .Append(e.InitiatorName)
+            .AddText($" used ")
+            .AddUiForeground(e.EmoteName.ToString(), 1)
+            .AddUiForegroundOff()
+            .AddText(" on you!")
+            .Build();
+        _chatGui.Print(chatMessage);
     }
 
     public void Dispose()
