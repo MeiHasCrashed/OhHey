@@ -58,7 +58,7 @@ public class MainWindow : Window
             ImGui.PushItemWidth(-1);
             foreach (var emote in _emoteService.EmoteHistory)
             {
-                ImGui.TextUnformatted($"{emote.Timestamp:HH:mm:ss} {emote.InitiatorName} used {emote.EmoteName.ToString()}");
+                ImGui.TextColored(KnownColor.LightGray.Vector(), $"{emote.Timestamp:HH:mm:ss} {emote.InitiatorName} used {emote.EmoteName.ToString()}");
             }
         }
     }
