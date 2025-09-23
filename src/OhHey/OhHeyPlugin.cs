@@ -30,17 +30,19 @@ public sealed class OhHeyPlugin : IDalamudPlugin
             .AddDalamudService<IGameInteropProvider>()
             .AddDalamudService<IDataManager>()
             .AddDalamudService<IChatGui>()
+            .AddDalamudService<ICommandManager>()
             .AddSingleton<EmoteListener>()
             .AddSingleton<EmoteService>()
             .AddSingleton<TargetListener>()
             .AddSingleton<TargetService>()
             .AddDalamudWindow<MainWindow>()
             .AddSingleton<KeyedWindowService>()
-            .AddSingleton<WindowService>();
+            .AddSingleton<WindowService>()
+            .AddSingleton<ChatCommandService>();
 
         _provider = services.BuildServiceProvider();
         _ = _provider.GetRequiredService<WindowService>();
-        _ = _provider.GetRequiredService<EmoteListener>();
+        _ = _provider.GetRequiredService<ChatCommandService>();
     }
 
     public void Dispose()
