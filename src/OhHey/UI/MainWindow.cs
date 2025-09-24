@@ -29,6 +29,7 @@ public class MainWindow : Window
         {
             MinimumSize = new Vector2(_textWidth + ImGui.GetStyle().WindowPadding.X * 2, 310)
         };
+        RespectCloseHotkey = false;
     }
 
     public override void Draw()
