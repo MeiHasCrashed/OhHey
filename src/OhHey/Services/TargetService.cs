@@ -77,6 +77,8 @@ public sealed class TargetService : IDisposable
         PushToHistory(target);
     }
 
+    public void ClearHistory() => TargetHistory.Clear();
+
     private void SendNotification(TargetEvent evt)
     {
         var chatMessage = new SeStringBuilder()

@@ -49,6 +49,11 @@ public class MainWindow : Window
     private void DrawEmoteUi()
     {
         ImGui.TextUnformatted("Emote History");
+        ImGui.SameLine();
+        if (RightAlignedButton("Clear History"))
+        {
+            _emoteService.ClearEmoteHistory();
+        }
         ImGui.Separator();
         const int length = EmoteService.MaxEmoteHistory + 1;
         using (ImRaii.ListBox("##ohhey_emote_list",
@@ -66,6 +71,11 @@ public class MainWindow : Window
     private void DrawTargetUi()
     {
         ImGui.TextUnformatted("Target History");
+        ImGui.SameLine();
+        if (RightAlignedButton("Clear History"))
+        {
+            _targetService.ClearHistory();
+        }
         ImGui.Separator();
         var length = Math.Clamp(_targetService.CurrentTargets.Count + _targetService.TargetHistory.Count + 1, 10, 20) +1;
         using (ImRaii.ListBox("##ohhey_target_list", new Vector2(_textWidth, length * ImGui.GetTextLineHeightWithSpacing())))
@@ -90,5 +100,13 @@ public class MainWindow : Window
             }
             ImGui.PopItemWidth();
         }
+    }
+
+    private static bool RightAlignedButton(string label)
+    {
+        var buttonWidth = ImGui.CalcTextSize(label).X + ImGui.GetStyle().FramePadding.X * 2;
+        var availableWidth = ImGui.GetContentRegionAvail().X;
+        ImGui.SetCursorPosX(ImGui.GetCursorPosX() + availableWidth - buttonWidth);
+        return ImGui.SmallButton(label);
     }
 }

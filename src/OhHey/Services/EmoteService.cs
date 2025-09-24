@@ -46,6 +46,8 @@ public sealed class EmoteService : IDisposable
         EmoteHistory.AddFirst(e);
     }
 
+    public void ClearEmoteHistory() => EmoteHistory.Clear();
+
     private void NotifyEmoteUsed(EmoteEvent e)
     {
         var chatMessage = new SeStringBuilder()
