@@ -14,14 +14,16 @@ public sealed class EmoteService : IDisposable
     private readonly IPluginLog _logger;
     private readonly EmoteListener _emoteListener;
     private readonly IChatGui _chatGui;
+    private readonly ConfigurationService _configService;
 
     public LinkedList<EmoteEvent> EmoteHistory { get; } = [];
 
-    public EmoteService(IPluginLog logger, EmoteListener emoteListener, IChatGui chatGui)
+    public EmoteService(IPluginLog logger, EmoteListener emoteListener, IChatGui chatGui, ConfigurationService configService)
     {
         _logger = logger;
         _emoteListener = emoteListener;
         _chatGui = chatGui;
+        _configService = configService;
 
         _emoteListener.Emote += OnEmote;
     }
@@ -33,6 +35,7 @@ public sealed class EmoteService : IDisposable
             e.InitiatorName.ToString(), e.InitiatorId,
             e.TargetName?.ToString() ?? "Unknown", e.TargetId);
         if (!e.TargetSelf) return;
+        if(e.InitiatorIsSelf && !_configService.Configuration.AllowSelfEmote) return;
         AddEmoteToHistory(e);
         NotifyEmoteUsed(e);
     }

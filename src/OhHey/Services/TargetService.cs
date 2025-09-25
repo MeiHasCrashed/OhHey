@@ -12,16 +12,21 @@ public sealed class TargetService : IDisposable
     private readonly IPluginLog _logger;
     private readonly TargetListener _targetListener;
     private readonly IChatGui _chatGui;
+    private readonly IClientState _clientState;
+    private readonly ConfigurationService _configService;
 
     public List<TargetEvent> CurrentTargets { get; } = [];
 
     public List<TargetEvent> TargetHistory { get; } = [];
 
-    public TargetService(IPluginLog logger, TargetListener targetListener, IChatGui chatGui)
+    public TargetService(IPluginLog logger, TargetListener targetListener, IChatGui chatGui,
+        ConfigurationService configService, IClientState clientState)
     {
         _logger = logger;
         _targetListener = targetListener;
         _chatGui = chatGui;
+        _configService = configService;
+        _clientState = clientState;
 
         _targetListener.Target += OnTarget;
         _targetListener.TargetRemoved += OnTargetRemoved;
@@ -47,6 +52,8 @@ public sealed class TargetService : IDisposable
 
     private void OnTarget(object? sender, TargetEvent e)
     {
+        _logger.Debug("Targeted by {Name} (ID: {GameObjectId} Self: {IsSelf})", e.Name, e.GameObjectId, e.IsSelf);
+        if (e.IsSelf && !_configService.Configuration.AllowSelfTarget) return;
         if (CurrentTargets.Exists(target => target.GameObjectId == e.GameObjectId))
         {
             _logger.Warning("Received duplicate target event for {Name} ({GameObjectId})", e.Name, e.GameObjectId);
@@ -58,7 +65,6 @@ public sealed class TargetService : IDisposable
             TargetHistory.RemoveAt(position);
         }
         CurrentTargets.Add(e);
-        _logger.Debug("Targeted by {Name} (ID: {GameObjectId} Self: {IsSelf})", e.Name, e.GameObjectId, e.IsSelf);
         SendNotification(e);
     }
 
@@ -67,6 +73,8 @@ public sealed class TargetService : IDisposable
         var position = CurrentTargets.FindIndex(target => target.GameObjectId == e);
         if (position == -1)
         {
+            // This happens when we don't handle self targeting, since we still receive the target removed event.
+            if (_clientState.LocalPlayer?.GameObjectId == e) return;
             _logger.Warning("Received target removed event for unknown GameObjectId {GameObjectId}", e);
             return;
         }

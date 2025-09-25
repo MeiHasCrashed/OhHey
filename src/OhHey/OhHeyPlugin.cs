@@ -31,11 +31,13 @@ public sealed class OhHeyPlugin : IDalamudPlugin
             .AddDalamudService<IDataManager>()
             .AddDalamudService<IChatGui>()
             .AddDalamudService<ICommandManager>()
+            .AddSingleton<ConfigurationService>()
             .AddSingleton<EmoteListener>()
             .AddSingleton<EmoteService>()
             .AddSingleton<TargetListener>()
             .AddSingleton<TargetService>()
             .AddDalamudWindow<MainWindow>()
+            .AddDalamudWindow<ConfigurationWindow>()
             .AddSingleton<KeyedWindowService>()
             .AddSingleton<WindowService>()
             .AddSingleton<ChatCommandService>();

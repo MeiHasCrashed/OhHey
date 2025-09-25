@@ -13,23 +13,27 @@ using OhHey.Services;
 namespace OhHey.UI;
 
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
-public class MainWindow : Window
+public sealed class MainWindow : Window, IDisposable
 {
     private readonly TargetService _targetService;
     private readonly EmoteService _emoteService;
+    private readonly ConfigurationService _configService;
     private readonly float _textWidth;
 
-    public MainWindow(TargetService targetService, EmoteService emoteService) : base("Oh Hey!##ohhey_main_window")
+    public MainWindow(TargetService targetService, EmoteService emoteService, ConfigurationService configurationService) : base("Oh Hey!##ohhey_main_window")
     {
         _targetService = targetService;
         _emoteService = emoteService;
+        _configService = configurationService;
         _textWidth = ImGui.CalcTextSize("00:00:00 A name that is 20 char used Emote Name here").X;
 
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(_textWidth + ImGui.GetStyle().WindowPadding.X * 2, 310)
         };
-        RespectCloseHotkey = false;
+
+        RespectCloseHotkey = _configService.Configuration.EnableMainWindowCloseHotkey;
+        configurationService.ConfigurationChanged += OnConfigurationChanged;
     }
 
     public override void Draw()
@@ -109,5 +113,15 @@ public class MainWindow : Window
         var availableWidth = ImGui.GetContentRegionAvail().X;
         ImGui.SetCursorPosX(ImGui.GetCursorPosX() + availableWidth - buttonWidth);
         return ImGui.SmallButton(label);
+    }
+
+    private void OnConfigurationChanged(object? _, OhHeyConfiguration configuration)
+    {
+        RespectCloseHotkey = configuration.EnableMainWindowCloseHotkey;
+    }
+
+    public void Dispose()
+    {
+        _configService.ConfigurationChanged -= OnConfigurationChanged;
     }
 }
