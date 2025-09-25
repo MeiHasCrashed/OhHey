@@ -18,4 +18,9 @@ public class OhHeyConfiguration : IPluginConfiguration
 
     public bool EnableMainWindowCloseHotkey { get; set; } = false;
 
+
+    public bool EnableTargetSoundNotification { get; set; } = false;
+
+    public uint TargetSoundNotificationId { get; set; } = 1;
+
 }

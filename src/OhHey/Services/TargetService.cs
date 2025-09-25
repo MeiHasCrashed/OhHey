@@ -3,6 +3,7 @@
 
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using OhHey.Listeners;
 
 namespace OhHey.Services;
@@ -112,6 +113,11 @@ public sealed class TargetService : IDisposable
             .AddText(" is targeting you!")
             .Build();
         _chatGui.Print(chatMessage);
+
+        if (_configService.Configuration.EnableTargetSoundNotification)
+        {
+            UIGlobals.PlayChatSoundEffect(_configService.Configuration.TargetSoundNotificationId);
+        }
     }
 
     public void Dispose()

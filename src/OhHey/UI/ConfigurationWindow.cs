@@ -4,6 +4,7 @@
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using JetBrains.Annotations;
 using OhHey.Services;
 
@@ -13,7 +14,6 @@ namespace OhHey.UI;
 public class ConfigurationWindow : Window
 {
     private readonly ConfigurationService _configService;
-
     private OhHeyConfiguration Config => _configService.Configuration;
 
     public ConfigurationWindow(ConfigurationService configService) : base("OhHey! Configuration##ohhey_config_window")
@@ -50,9 +50,48 @@ public class ConfigurationWindow : Window
     {
         if (!ImGui.BeginTabItem("Targets##ohhey_config_tab_target")) return;
 
-        ImGui.TextUnformatted("Target Settings");
-        ImGui.Separator();
+        ImGui.TextUnformatted("Notification Settings:");
 
+        var soundEnabled = Config.EnableTargetSoundNotification;
+        if(ImGui.Checkbox("Enable sound notification on target", ref soundEnabled))
+        {
+            Config.EnableTargetSoundNotification = soundEnabled;
+            _configService.Save();
+        }
+
+        ImGui.TextUnformatted("Sound to play (SE.1 - SE.16)");
+        var selectedIndex = _configService.Configuration.TargetSoundNotificationId;
+        if (ImGui.BeginCombo("##ohhey_config_combo_target_sound", $"SE.{selectedIndex}"))
+        {
+            for (var i = 1; i <= 16; i++)
+            {
+                var isSelected = selectedIndex == i;
+                if (ImGui.Selectable($"SE.{i}", isSelected))
+                {
+                    selectedIndex = (uint)i;
+                    Config.TargetSoundNotificationId = selectedIndex;
+                    _configService.Save();
+                }
+
+                if (isSelected)
+                {
+                    ImGui.SetItemDefaultFocus();
+                }
+            }
+            ImGui.EndCombo();
+        }
+        ImGui.SameLine();
+        if (ImGui.ArrowButton("##ohhey_config_button_target_sound_play", ImGuiDir.Right))
+        {
+            UIGlobals.PlayChatSoundEffect(_configService.Configuration.TargetSoundNotificationId);
+        }
+
+        if (ImGui.IsItemHovered())
+        {
+            ImGui.SetTooltip("Play the selected sound effect");
+        }
+
+        ImGui.Separator();
         ImGui.TextUnformatted("Self-target settings:");
 
         var allowSelfTarget = Config.ShowSelfTarget;
