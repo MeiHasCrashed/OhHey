@@ -50,10 +50,22 @@ public class ConfigurationWindow : Window
     {
         if (!ImGui.BeginTabItem("Targets##ohhey_config_tab_target")) return;
 
-        var allowSelfTarget = Config.AllowSelfTarget;
-        if (ImGui.Checkbox("Handle self targeting", ref allowSelfTarget))
+        ImGui.TextUnformatted("Target Settings");
+        ImGui.Separator();
+
+        ImGui.TextUnformatted("Self-target settings:");
+
+        var allowSelfTarget = Config.ShowSelfTarget;
+        if (ImGui.Checkbox("Show self-targeting in target list", ref allowSelfTarget))
         {
-            Config.AllowSelfTarget = allowSelfTarget;
+            Config.ShowSelfTarget = allowSelfTarget;
+            _configService.Save();
+        }
+
+        var notifyOnSelfTarget = Config.NotifyOnSelfTarget;
+        if (ImGui.Checkbox("Notify on self-target", ref notifyOnSelfTarget))
+        {
+            Config.NotifyOnSelfTarget = notifyOnSelfTarget;
             _configService.Save();
         }
 

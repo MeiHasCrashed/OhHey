@@ -10,7 +10,9 @@ public class OhHeyConfiguration : IPluginConfiguration
 {
     public int Version { get; set; } = 0;
 
-    public bool AllowSelfTarget { get; set; } = true;
+    public bool ShowSelfTarget { get; set; } = true;
+
+    public bool NotifyOnSelfTarget { get; set; } = false;
 
     public bool AllowSelfEmote { get; set; } = false;
 

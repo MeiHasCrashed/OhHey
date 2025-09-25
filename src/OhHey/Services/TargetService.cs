@@ -53,19 +53,35 @@ public sealed class TargetService : IDisposable
     private void OnTarget(object? sender, TargetEvent e)
     {
         _logger.Debug("Targeted by {Name} (ID: {GameObjectId} Self: {IsSelf})", e.Name, e.GameObjectId, e.IsSelf);
-        if (e.IsSelf && !_configService.Configuration.AllowSelfTarget) return;
         if (CurrentTargets.Exists(target => target.GameObjectId == e.GameObjectId))
         {
             _logger.Warning("Received duplicate target event for {Name} ({GameObjectId})", e.Name, e.GameObjectId);
             return;
         }
+
+        if (e.IsSelf)
+        {
+            if (_configService.Configuration.ShowSelfTarget)
+            {
+                UpdateTargetList(e);
+            }
+        }
+        else {
+            UpdateTargetList(e);
+        }
+
+        if (e.IsSelf && !_configService.Configuration.NotifyOnSelfTarget) return;
+        SendNotification(e);
+    }
+
+    private void UpdateTargetList(TargetEvent e)
+    {
         var position = TargetHistory.FindIndex(target => target.GameObjectId == e.GameObjectId);
         if (position != -1)
         {
             TargetHistory.RemoveAt(position);
         }
         CurrentTargets.Add(e);
-        SendNotification(e);
     }
 
     private void OnTargetRemoved(object? sender, ulong e)
