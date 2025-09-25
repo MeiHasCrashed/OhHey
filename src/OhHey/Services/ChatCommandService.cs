@@ -47,6 +47,7 @@ public sealed class ChatCommandService : IDisposable
                 _mainWindow.Toggle();
                 break;
             case "config":
+            case "settings":
                 _configWindow.Toggle();
                 break;
             default:
@@ -62,7 +63,7 @@ public sealed class ChatCommandService : IDisposable
             .AddUiForeground("[Oh Hey!] Chat Commands: \n\n", 537).AddUiForegroundOff()
             .AddText("- ").AddUiForeground("/ohhey", 37).AddUiForegroundOff().AddText(" Opens the main window.\n")
             .AddText("- ").AddUiForeground("/ohhey main", 37).AddUiForegroundOff().AddText(" Opens the main window.\n")
-            .AddText("- ").AddUiForeground("/ohhey config", 37).AddUiForegroundOff().AddText(" Opens the configuration window.\n")
+            .AddText("- ").AddUiForeground("/ohhey [config|settings]", 37).AddUiForegroundOff().AddText(" Opens the configuration window.\n")
             .AddText("- ").AddUiForeground("/ohhey help", 37).AddUiForegroundOff().AddText(" Shows this help message.");
         _chatGui.Print(builder.Build());
     }
