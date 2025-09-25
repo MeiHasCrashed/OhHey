@@ -20,7 +20,8 @@ public sealed class MainWindow : Window, IDisposable
     private readonly ConfigurationService _configService;
     private readonly float _textWidth;
 
-    public MainWindow(TargetService targetService, EmoteService emoteService, ConfigurationService configurationService) : base("Oh Hey!##ohhey_main_window")
+    public MainWindow(TargetService targetService, EmoteService emoteService, ConfigurationService configurationService,
+        ConfigurationWindow configWindow) : base("Oh Hey!##ohhey_main_window")
     {
         _targetService = targetService;
         _emoteService = emoteService;
@@ -34,6 +35,17 @@ public sealed class MainWindow : Window, IDisposable
 
         RespectCloseHotkey = _configService.Configuration.EnableMainWindowCloseHotkey;
         configurationService.ConfigurationChanged += OnConfigurationChanged;
+
+        TitleBarButtons.Add(new TitleBarButton
+        {
+            Icon = FontAwesomeIcon.Cog,
+            ShowTooltip = () => ImGui.SetTooltip("Plugin settings"),
+            Click = _ =>
+            {
+                configWindow.IsOpen = true;
+                configWindow.BringToFront();
+            }
+        });
     }
 
     public override void Draw()
