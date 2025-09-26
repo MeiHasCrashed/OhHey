@@ -1,4 +1,4 @@
-﻿name: Oh Hey
+﻿name: Oh Hey!
 author: Mei
 punchline: Ever wanted to get notified when someone targets you or emotes at you? Now you can!
 description: |-
@@ -11,6 +11,7 @@ description: |-
     /ohhey help - Displays the help message (will also display on invalid sub-commands)
 
 repo_url: https://github.com/MeiHasCrashed/OhHey
+icon_url: https://raw.githubusercontent.com/MeiHasCrashed/OhHey/refs/heads/main/src/OhHey/images/icon.png
 tags:
   - notification
   - emote
