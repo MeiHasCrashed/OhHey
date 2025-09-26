@@ -21,6 +21,8 @@ public sealed class EmoteListener : IDisposable
     private delegate void OnEmoteDelegate(ulong unknown, IntPtr initiatorAddress, ushort emoteId, ulong targetId,
         ulong unknown2);
 
+    // Signature and delegate taken from https://github.com/MgAl2O4/PatMeDalamud/blob/main/plugin/EmoteReaderHooks.cs licensed under MIT license.
+    // Thank you !
     [Signature("E8 ?? ?? ?? ?? 48 8D 8B ?? ?? ?? ?? 4C 89 74 24", DetourName = nameof(OnEmoteHook))]
     private readonly Hook<OnEmoteDelegate>? _onEmoteHook = null!;
 
