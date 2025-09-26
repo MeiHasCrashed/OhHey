@@ -41,7 +41,7 @@ public class ConfigurationWindow : Window
         if (!ImGui.BeginTabItem("General##ohhey_config_tab_general")) return;
 
         var enableCloseHotkey = Config.EnableMainWindowCloseHotkey;
-        if (ImGui.Checkbox("Enable closing the main window using ESC", ref enableCloseHotkey))
+        if (ImGui.Checkbox("Enable closing the main window with ESC", ref enableCloseHotkey))
         {
             Config.EnableMainWindowCloseHotkey = enableCloseHotkey;
             _configService.Save();
