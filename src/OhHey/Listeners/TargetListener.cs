@@ -37,6 +37,7 @@ public sealed class TargetListener : IDisposable
 
     private void FrameworkUpdate(IFramework framework)
     {
+        if (_clientState.IsPvP) return;
         if (_updateStopwatch.ElapsedMilliseconds < UpdateMilliseconds) return;
         CheckForTargets();
         _updateStopwatch.Restart();
