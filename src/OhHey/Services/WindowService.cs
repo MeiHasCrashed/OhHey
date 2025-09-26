@@ -7,7 +7,7 @@ using Dalamud.Plugin.Services;
 
 namespace OhHey.Services;
 
-public class WindowService : IDisposable
+public sealed class WindowService : IDisposable
 {
     private readonly IDalamudPluginInterface _pluginInterface;
     private readonly IPluginLog _logger;
@@ -38,6 +38,5 @@ public class WindowService : IDisposable
     public void Dispose()
     {
         _pluginInterface.UiBuilder.Draw -= _windowSystem.Draw;
-        GC.SuppressFinalize(this);
     }
 }

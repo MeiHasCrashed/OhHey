@@ -8,7 +8,7 @@ using Dalamud.Plugin.Services;
 
 namespace OhHey.Listeners;
 
-public class TargetListener : IDisposable
+public sealed class TargetListener : IDisposable
 {
     private const int UpdateMilliseconds = 100;
 
@@ -115,6 +115,5 @@ public class TargetListener : IDisposable
     public void Dispose()
     {
         _framework.Update -= FrameworkUpdate;
-        GC.SuppressFinalize(this);
     }
 }
