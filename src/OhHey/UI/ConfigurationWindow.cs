@@ -128,7 +128,6 @@ public class ConfigurationWindow : Window
         if (!ImGui.BeginTabItem("Emotes##ohhey_config_tab_emote")) return;
 
         ImGui.TextUnformatted("Notification Settings:");
-        ImGui.Separator();
 
         var enableEmoteNotifications = Config.EnableEmoteNotifications;
         if (ImGui.Checkbox("Enable emote notifications", ref enableEmoteNotifications))
