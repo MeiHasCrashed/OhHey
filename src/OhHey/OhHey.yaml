@@ -1,11 +1,14 @@
 ﻿name: Oh Hey
 author: Mei
-punchline: Ever wanted to get notified when someone targets you or emotes at you? Now you can !
+punchline: Ever wanted to get notified when someone targets you or emotes at you? Now you can!
 description: |-
-  Ever wanted to get notified when someone targets you or emotes at you? Now you can !
+  This plugin notifies you when someone targets you, or emotes at you.
 
   Commands:
     /ohhey - Opens the main window
+    /ohhey main - Opens the main window
+    /ohhey [config|settings] - Opens the settings window
+    /ohhey help - Displays the help message (will also display on invalid sub-commands)
 
 repo_url: https://github.com/MeiHasCrashed/OhHey
 tags:
