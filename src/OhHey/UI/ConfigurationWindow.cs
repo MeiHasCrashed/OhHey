@@ -33,8 +33,6 @@ public class ConfigurationWindow : Window
     private void GeneralConfig()
     {
         if (!ImGui.BeginTabItem("General##ohhey_config_tab_general")) return;
-        ImGui.TextUnformatted("General Settings");
-        ImGui.Separator();
 
         var enableCloseHotkey = Config.EnableMainWindowCloseHotkey;
         if (ImGui.Checkbox("Enable closing the main window using ESC", ref enableCloseHotkey))
