@@ -8,19 +8,29 @@ namespace OhHey;
 [Serializable]
 public class OhHeyConfiguration : IPluginConfiguration
 {
+    // General Settings
     public int Version { get; set; } = 0;
+
+    public bool EnableMainWindowCloseHotkey { get; set; } = false;
+
+    // Target Settings
+    public bool EnableTargetSoundNotification { get; set; } = false;
+
+    public uint TargetSoundNotificationId { get; set; } = 1;
 
     public bool ShowSelfTarget { get; set; } = true;
 
     public bool NotifyOnSelfTarget { get; set; } = false;
 
-    public bool AllowSelfEmote { get; set; } = false;
+    // Emote Settings
+    public bool EnableEmoteNotifications { get; set; } = true;
 
-    public bool EnableMainWindowCloseHotkey { get; set; } = false;
+    public bool EnableEmoteSoundNotification { get; set; } = false;
 
+    public uint EmoteSoundNotificationId { get; set; } = 1;
 
-    public bool EnableTargetSoundNotification { get; set; } = false;
+    public bool ShowSelfEmote { get; set; } = false;
 
-    public uint TargetSoundNotificationId { get; set; } = 1;
+    public bool NotifyOnSelfEmote { get; set; } = false;
 
 }

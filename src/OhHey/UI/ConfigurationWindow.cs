@@ -16,7 +16,7 @@ public class ConfigurationWindow : Window
     private readonly ConfigurationService _configService;
     private OhHeyConfiguration Config => _configService.Configuration;
 
-    public ConfigurationWindow(ConfigurationService configService) : base("OhHey! Configuration##ohhey_config_window")
+    public ConfigurationWindow(ConfigurationService configService) : base("Oh Hey! Configuration##ohhey_config_window")
     {
         _configService = configService;
     }
@@ -115,13 +115,77 @@ public class ConfigurationWindow : Window
     {
         if (!ImGui.BeginTabItem("Emotes##ohhey_config_tab_emote")) return;
 
-        var allowSelfEmote = Config.AllowSelfEmote;
-        if (ImGui.Checkbox("Handle self emotes", ref allowSelfEmote))
+        ImGui.TextUnformatted("Notification Settings:");
+        ImGui.Separator();
+
+        var enableEmoteNotifications = Config.EnableEmoteNotifications;
+        if (ImGui.Checkbox("Enable emote notifications", ref enableEmoteNotifications))
         {
-            Config.AllowSelfEmote = allowSelfEmote;
+            Config.EnableEmoteNotifications = enableEmoteNotifications;
+            _configService.Save();
+        }
+
+        EmoteSoundConfig();
+
+        ImGui.Separator();
+        ImGui.TextUnformatted("Self-emote settings:");
+
+        var allowSelfEmote = Config.ShowSelfEmote;
+        if (ImGui.Checkbox("Show self-emote in history", ref allowSelfEmote))
+        {
+            Config.ShowSelfEmote = allowSelfEmote;
+            _configService.Save();
+        }
+
+        var notifyOnSelfEmote = Config.NotifyOnSelfEmote;
+        if (ImGui.Checkbox("Notify on self-emote", ref notifyOnSelfEmote))
+        {
+            Config.NotifyOnSelfEmote = notifyOnSelfEmote;
             _configService.Save();
         }
 
         ImGui.EndTabItem();
+    }
+
+    private void EmoteSoundConfig()
+    {
+        var soundEnabled = Config.EnableEmoteSoundNotification;
+        if(ImGui.Checkbox("Enable sound notification on emote", ref soundEnabled))
+        {
+            Config.EnableEmoteSoundNotification = soundEnabled;
+            _configService.Save();
+        }
+
+        ImGui.TextUnformatted("Sound to play (SE.1 - SE.16)");
+        var selectedIndex = _configService.Configuration.EmoteSoundNotificationId;
+        if (ImGui.BeginCombo("##ohhey_config_combo_emote_sound", $"SE.{selectedIndex}"))
+        {
+            for (var i = 1; i <= 16; i++)
+            {
+                var isSelected = selectedIndex == i;
+                if (ImGui.Selectable($"SE.{i}", isSelected))
+                {
+                    selectedIndex = (uint)i;
+                    Config.EmoteSoundNotificationId = selectedIndex;
+                    _configService.Save();
+                }
+
+                if (isSelected)
+                {
+                    ImGui.SetItemDefaultFocus();
+                }
+            }
+            ImGui.EndCombo();
+        }
+        ImGui.SameLine();
+        if (ImGui.ArrowButton("##ohhey_config_button_emote_sound_play", ImGuiDir.Right))
+        {
+            UIGlobals.PlayChatSoundEffect(_configService.Configuration.EmoteSoundNotificationId);
+        }
+
+        if (ImGui.IsItemHovered())
+        {
+            ImGui.SetTooltip("Play the selected sound effect");
+        }
     }
 }

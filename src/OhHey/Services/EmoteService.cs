@@ -3,6 +3,7 @@
 
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using OhHey.Listeners;
 
 namespace OhHey.Services;
@@ -35,8 +36,17 @@ public sealed class EmoteService : IDisposable
             e.InitiatorName.ToString(), e.InitiatorId,
             e.TargetName?.ToString() ?? "Unknown", e.TargetId);
         if (!e.TargetSelf) return;
-        if(e.InitiatorIsSelf && !_configService.Configuration.AllowSelfEmote) return;
-        AddEmoteToHistory(e);
+        if (e.InitiatorIsSelf)
+        {
+            if (_configService.Configuration.ShowSelfEmote)
+            {
+                AddEmoteToHistory(e);
+            }
+        }
+        else
+        {
+            AddEmoteToHistory(e);
+        }
         NotifyEmoteUsed(e);
     }
 
@@ -53,6 +63,8 @@ public sealed class EmoteService : IDisposable
 
     private void NotifyEmoteUsed(EmoteEvent e)
     {
+        if (!_configService.Configuration.EnableEmoteNotifications) return;
+        if (e.InitiatorIsSelf && !_configService.Configuration.NotifyOnSelfEmote) return;
         var chatMessage = new SeStringBuilder()
             .AddUiForeground("[Oh Hey!] ", 537)
             .AddUiForegroundOff()
@@ -63,6 +75,9 @@ public sealed class EmoteService : IDisposable
             .AddText(" on you!")
             .Build();
         _chatGui.Print(chatMessage);
+
+        if (!_configService.Configuration.EnableEmoteSoundNotification) return;
+        UIGlobals.PlayChatSoundEffect(_configService.Configuration.EmoteSoundNotificationId);
     }
 
     public void Dispose()
