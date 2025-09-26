@@ -52,6 +52,13 @@ public class ConfigurationWindow : Window
 
         ImGui.TextUnformatted("Notification Settings:");
 
+        var enableTargetNotifications = Config.EnableTargetNotifications;
+        if (ImGui.Checkbox("Enable target notifications", ref enableTargetNotifications))
+        {
+            Config.EnableTargetNotifications = enableTargetNotifications;
+            _configService.Save();
+        }
+
         TargetSoundConfig();
 
         ImGui.Separator();

@@ -71,6 +71,8 @@ public sealed class TargetService : IDisposable
             UpdateTargetList(e);
         }
 
+        if (!_configService.Configuration.EnableTargetNotifications) return;
+
         if (e.IsSelf && !_configService.Configuration.NotifyOnSelfTarget) return;
         SendNotification(e);
     }
