@@ -52,6 +52,30 @@ public class ConfigurationWindow : Window
 
         ImGui.TextUnformatted("Notification Settings:");
 
+        TargetSoundConfig();
+
+        ImGui.Separator();
+        ImGui.TextUnformatted("Self-target settings:");
+
+        var allowSelfTarget = Config.ShowSelfTarget;
+        if (ImGui.Checkbox("Show self-targeting in target list", ref allowSelfTarget))
+        {
+            Config.ShowSelfTarget = allowSelfTarget;
+            _configService.Save();
+        }
+
+        var notifyOnSelfTarget = Config.NotifyOnSelfTarget;
+        if (ImGui.Checkbox("Notify on self-target", ref notifyOnSelfTarget))
+        {
+            Config.NotifyOnSelfTarget = notifyOnSelfTarget;
+            _configService.Save();
+        }
+
+        ImGui.EndTabItem();
+    }
+
+    private void TargetSoundConfig()
+    {
         var soundEnabled = Config.EnableTargetSoundNotification;
         if(ImGui.Checkbox("Enable sound notification on target", ref soundEnabled))
         {
@@ -90,25 +114,6 @@ public class ConfigurationWindow : Window
         {
             ImGui.SetTooltip("Play the selected sound effect");
         }
-
-        ImGui.Separator();
-        ImGui.TextUnformatted("Self-target settings:");
-
-        var allowSelfTarget = Config.ShowSelfTarget;
-        if (ImGui.Checkbox("Show self-targeting in target list", ref allowSelfTarget))
-        {
-            Config.ShowSelfTarget = allowSelfTarget;
-            _configService.Save();
-        }
-
-        var notifyOnSelfTarget = Config.NotifyOnSelfTarget;
-        if (ImGui.Checkbox("Notify on self-target", ref notifyOnSelfTarget))
-        {
-            Config.NotifyOnSelfTarget = notifyOnSelfTarget;
-            _configService.Save();
-        }
-
-        ImGui.EndTabItem();
     }
 
     private void EmoteConfig()
