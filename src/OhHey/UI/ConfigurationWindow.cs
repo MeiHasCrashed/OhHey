@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using System.Numerics;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
@@ -19,6 +20,11 @@ public class ConfigurationWindow : Window
     public ConfigurationWindow(ConfigurationService configService) : base("Oh Hey! Configuration##ohhey_config_window")
     {
         _configService = configService;
+
+        SizeConstraints = new WindowSizeConstraints
+        {
+            MinimumSize = new Vector2(400, 300)
+        };
     }
 
     public override void Draw()
