@@ -30,6 +30,7 @@ public class ConfigurationWindow : Window
     public override void Draw()
     {
         using var tabBar = ImRaii.TabBar("##ohhey_config_tab_bar");
+        if (!tabBar) return;
         GeneralConfig();
         TargetConfig();
         EmoteConfig();
@@ -38,7 +39,8 @@ public class ConfigurationWindow : Window
 
     private void GeneralConfig()
     {
-        if (!ImGui.BeginTabItem("General##ohhey_config_tab_general")) return;
+        using var tabItem = ImRaii.TabItem("General##ohhey_config_tab_general");
+        if (!tabItem) return;
 
         var enableCloseHotkey = Config.EnableMainWindowCloseHotkey;
         if (ImGui.Checkbox("Enable closing the main window with ESC", ref enableCloseHotkey))
@@ -46,13 +48,12 @@ public class ConfigurationWindow : Window
             Config.EnableMainWindowCloseHotkey = enableCloseHotkey;
             _configService.Save();
         }
-
-        ImGui.EndTabItem();
     }
 
     private void TargetConfig()
     {
-        if (!ImGui.BeginTabItem("Targets##ohhey_config_tab_target")) return;
+        using var tabItem = ImRaii.TabItem("Targets##ohhey_config_tab_target");
+        if (!tabItem) return;
 
         ImGui.TextUnformatted("Notification Settings:");
 
@@ -81,8 +82,6 @@ public class ConfigurationWindow : Window
             Config.NotifyOnSelfTarget = notifyOnSelfTarget;
             _configService.Save();
         }
-
-        ImGui.EndTabItem();
     }
 
     private void TargetSoundConfig()
@@ -96,24 +95,26 @@ public class ConfigurationWindow : Window
 
         ImGui.TextUnformatted("Sound to play (SE.1 - SE.16)");
         var selectedIndex = _configService.Configuration.TargetSoundNotificationId;
-        if (ImGui.BeginCombo("##ohhey_config_combo_target_sound", $"SE.{selectedIndex}"))
+        using (var combo = ImRaii.Combo("##ohhey_config_combo_target_sound", $"SE.{selectedIndex}"))
         {
-            for (var i = 1; i <= 16; i++)
+            if (combo)
             {
-                var isSelected = selectedIndex == i;
-                if (ImGui.Selectable($"SE.{i}", isSelected))
+                for (var i = 1; i <= 16; i++)
                 {
-                    selectedIndex = (uint)i;
-                    Config.TargetSoundNotificationId = selectedIndex;
-                    _configService.Save();
-                }
+                    var isSelected = selectedIndex == i;
+                    if (ImGui.Selectable($"SE.{i}", isSelected))
+                    {
+                        selectedIndex = (uint)i;
+                        Config.TargetSoundNotificationId = selectedIndex;
+                        _configService.Save();
+                    }
 
-                if (isSelected)
-                {
-                    ImGui.SetItemDefaultFocus();
+                    if (isSelected)
+                    {
+                        ImGui.SetItemDefaultFocus();
+                    }
                 }
             }
-            ImGui.EndCombo();
         }
         ImGui.SameLine();
         if (ImGui.ArrowButton("##ohhey_config_button_target_sound_play", ImGuiDir.Right))
@@ -123,13 +124,15 @@ public class ConfigurationWindow : Window
 
         if (ImGui.IsItemHovered())
         {
-            ImGui.SetTooltip("Play the selected sound effect");
+            using var tt = ImRaii.Tooltip();
+            ImGui.TextUnformatted("Play the selected sound effect");
         }
     }
 
     private void EmoteConfig()
     {
-        if (!ImGui.BeginTabItem("Emotes##ohhey_config_tab_emote")) return;
+        using var tabItem = ImRaii.TabItem("Emotes##ohhey_config_tab_emote");
+        if (!tabItem) return;
 
         ImGui.TextUnformatted("Notification Settings:");
 
@@ -158,8 +161,6 @@ public class ConfigurationWindow : Window
             Config.NotifyOnSelfEmote = notifyOnSelfEmote;
             _configService.Save();
         }
-
-        ImGui.EndTabItem();
     }
 
     private void EmoteSoundConfig()
@@ -173,24 +174,26 @@ public class ConfigurationWindow : Window
 
         ImGui.TextUnformatted("Sound to play (SE.1 - SE.16)");
         var selectedIndex = _configService.Configuration.EmoteSoundNotificationId;
-        if (ImGui.BeginCombo("##ohhey_config_combo_emote_sound", $"SE.{selectedIndex}"))
+        using (var combo = ImRaii.Combo("##ohhey_config_combo_emote_sound", $"SE.{selectedIndex}"))
         {
-            for (var i = 1; i <= 16; i++)
+            if (combo)
             {
-                var isSelected = selectedIndex == i;
-                if (ImGui.Selectable($"SE.{i}", isSelected))
+                for (var i = 1; i <= 16; i++)
                 {
-                    selectedIndex = (uint)i;
-                    Config.EmoteSoundNotificationId = selectedIndex;
-                    _configService.Save();
-                }
+                    var isSelected = selectedIndex == i;
+                    if (ImGui.Selectable($"SE.{i}", isSelected))
+                    {
+                        selectedIndex = (uint)i;
+                        Config.EmoteSoundNotificationId = selectedIndex;
+                        _configService.Save();
+                    }
 
-                if (isSelected)
-                {
-                    ImGui.SetItemDefaultFocus();
+                    if (isSelected)
+                    {
+                        ImGui.SetItemDefaultFocus();
+                    }
                 }
             }
-            ImGui.EndCombo();
         }
         ImGui.SameLine();
         if (ImGui.ArrowButton("##ohhey_config_button_emote_sound_play", ImGuiDir.Right))
@@ -200,7 +203,8 @@ public class ConfigurationWindow : Window
 
         if (ImGui.IsItemHovered())
         {
-            ImGui.SetTooltip("Play the selected sound effect");
+            using var tt = ImRaii.Tooltip();
+            ImGui.TextUnformatted("Play the selected sound effect");
         }
     }
 }
