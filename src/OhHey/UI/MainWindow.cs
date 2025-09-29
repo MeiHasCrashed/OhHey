@@ -39,7 +39,11 @@ public sealed class MainWindow : Window, IDisposable
         TitleBarButtons.Add(new TitleBarButton
         {
             Icon = FontAwesomeIcon.Cog,
-            ShowTooltip = () => ImGui.SetTooltip("Plugin settings"),
+            ShowTooltip = () =>
+            {
+                using var tt = ImRaii.Tooltip();
+                ImGui.TextUnformatted("Plugin settings");
+            },
             Click = _ =>
             {
                 configWindow.IsOpen = true;
@@ -51,20 +55,15 @@ public sealed class MainWindow : Window, IDisposable
     public override void Draw()
     {
         using var tabBar = ImRaii.TabBar("##ohhey_main_tab_bar");
-        if(ImGui.BeginTabItem("Targets##ohhey_targets_tab"))
-        {
-            DrawTargetUi();
-            ImGui.EndTabItem();
-        }
-        if(ImGui.BeginTabItem("Emotes##ohhey_emotes_tab"))
-        {
-            DrawEmoteUi();
-            ImGui.EndTabItem();
-        }
+        if (!tabBar) return;
+        DrawTargetUi();
+        DrawEmoteUi();
     }
 
     private void DrawEmoteUi()
     {
+        using var tabItem = ImRaii.TabItem("Emotes##ohhey_emotes_tab");
+        if (!tabItem) return;
         ImGui.TextUnformatted("Emote History");
         ImGui.SameLine();
         if (RightAlignedButton("Clear History"))
@@ -73,20 +72,21 @@ public sealed class MainWindow : Window, IDisposable
         }
         ImGui.Separator();
         const int length = EmoteService.MaxEmoteHistory + 1;
-        using (ImRaii.ListBox("##ohhey_emote_list",
-                   new Vector2(_textWidth,
-                       length * ImGui.GetTextLineHeightWithSpacing())))
+        using var listBox = ImRaii.ListBox("##ohhey_emote_list",
+            new Vector2(_textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
+        if (!listBox) return;
+        ImGui.PushItemWidth(-1);
+        foreach (var emote in _emoteService.EmoteHistory)
         {
-            ImGui.PushItemWidth(-1);
-            foreach (var emote in _emoteService.EmoteHistory)
-            {
-                ImGui.TextColored(KnownColor.LightGray.Vector(), $"{emote.Timestamp:HH:mm:ss} {emote.InitiatorName} used {emote.EmoteName.ToString()}");
-            }
+            ImGui.TextColored(KnownColor.LightGray.Vector(), $"{emote.Timestamp:HH:mm:ss} {emote.InitiatorName} used {emote.EmoteName.ToString()}");
         }
+        ImGui.PopItemWidth();
     }
 
     private void DrawTargetUi()
     {
+        using var tabItem = ImRaii.TabItem("Targets##ohhey_targets_tab");
+        if (!tabItem) return;
         ImGui.TextUnformatted("Target History");
         ImGui.SameLine();
         if (RightAlignedButton("Clear History"))
@@ -95,28 +95,28 @@ public sealed class MainWindow : Window, IDisposable
         }
         ImGui.Separator();
         var length = Math.Clamp(_targetService.CurrentTargets.Count + _targetService.TargetHistory.Count + 1, 10, 20) +1;
-        using (ImRaii.ListBox("##ohhey_target_list", new Vector2(_textWidth, length * ImGui.GetTextLineHeightWithSpacing())))
+
+        using var listBox = ImRaii.ListBox("##ohhey_target_list", new Vector2(_textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
+        if (!listBox) return;
+        ImGui.PushItemWidth(-1);
+
+        for (var i = _targetService.CurrentTargets.Count - 1; i >= 0; i--)
         {
-            ImGui.PushItemWidth(-1);
-
-            for (var i = _targetService.CurrentTargets.Count - 1; i >= 0; i--)
-            {
-                var target = _targetService.CurrentTargets[i];
-                ImGui.TextUnformatted($"{target.Timestamp:HH:mm:ss} {target.Name}");
-            }
-
-            if (_targetService.CurrentTargets.Count > 0)
-            {
-                ImGui.Separator();
-            }
-
-            for (var i = _targetService.TargetHistory.Count - 1; i >= 0; i--)
-            {
-                var target = _targetService.TargetHistory[i];
-                ImGui.TextColored(KnownColor.LightGray.Vector(), $"{target.Timestamp:HH:mm:ss} {target.Name}");
-            }
-            ImGui.PopItemWidth();
+            var target = _targetService.CurrentTargets[i];
+            ImGui.TextUnformatted($"{target.Timestamp:HH:mm:ss} {target.Name}");
         }
+
+        if (_targetService.CurrentTargets.Count > 0)
+        {
+            ImGui.Separator();
+        }
+
+        for (var i = _targetService.TargetHistory.Count - 1; i >= 0; i--)
+        {
+            var target = _targetService.TargetHistory[i];
+            ImGui.TextColored(KnownColor.LightGray.Vector(), $"{target.Timestamp:HH:mm:ss} {target.Name}");
+        }
+        ImGui.PopItemWidth();
     }
 
     private static bool RightAlignedButton(string label)
