@@ -37,6 +37,6 @@ public class OhHeyConfiguration : IPluginConfiguration
 
     public bool NotifyOnSelfEmote { get; set; } = false;
 
-    public bool EnableEmoteNotificationInCombat { get; set; } = false;
+    public bool EnableEmoteNotificationInCombat { get; set; } = true;
 
 }
