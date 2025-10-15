@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Dalamud.NET.Sdk/13.1.0">
 
     <PropertyGroup>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
         <Description>Ever wanted to get notified when someone targets you or emotes at you? Now you can !</Description>
         <PackageProjectUrl>https://github.com/MeiHasCrashed/OhHey</PackageProjectUrl>
         <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
