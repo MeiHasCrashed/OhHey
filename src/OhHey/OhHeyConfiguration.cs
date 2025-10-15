@@ -24,6 +24,8 @@ public class OhHeyConfiguration : IPluginConfiguration
 
     public bool NotifyOnSelfTarget { get; set; } = false;
 
+    public bool EnableTargetNotificationInCombat { get; set; } = false;
+
     // Emote Settings
     public bool EnableEmoteNotifications { get; set; } = true;
 
@@ -34,5 +36,7 @@ public class OhHeyConfiguration : IPluginConfiguration
     public bool ShowSelfEmote { get; set; } = false;
 
     public bool NotifyOnSelfEmote { get; set; } = false;
+
+    public bool EnableEmoteNotificationInCombat { get; set; } = false;
 
 }
