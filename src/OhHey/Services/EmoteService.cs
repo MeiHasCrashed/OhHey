@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -16,15 +17,18 @@ public sealed class EmoteService : IDisposable
     private readonly EmoteListener _emoteListener;
     private readonly IChatGui _chatGui;
     private readonly ConfigurationService _configService;
+    private readonly ICondition _condition;
 
     public LinkedList<EmoteEvent> EmoteHistory { get; } = [];
 
-    public EmoteService(IPluginLog logger, EmoteListener emoteListener, IChatGui chatGui, ConfigurationService configService)
+    public EmoteService(IPluginLog logger, EmoteListener emoteListener, IChatGui chatGui,
+        ConfigurationService configService, ICondition condition)
     {
         _logger = logger;
         _emoteListener = emoteListener;
         _chatGui = chatGui;
         _configService = configService;
+        _condition = condition;
 
         _emoteListener.Emote += OnEmote;
     }
@@ -65,6 +69,7 @@ public sealed class EmoteService : IDisposable
     {
         if (!_configService.Configuration.EnableEmoteNotifications) return;
         if (e.InitiatorIsSelf && !_configService.Configuration.NotifyOnSelfEmote) return;
+        if (!_configService.Configuration.EnableEmoteNotificationInCombat && _condition[ConditionFlag.InCombat]) return;
         var chatMessage = new SeStringBuilder()
             .AddUiForeground("[Oh Hey!] ", 537)
             .AddUiForegroundOff()
