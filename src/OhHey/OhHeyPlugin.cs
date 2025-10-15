@@ -31,6 +31,7 @@ public sealed class OhHeyPlugin : IDalamudPlugin
             .AddDalamudService<IDataManager>()
             .AddDalamudService<IChatGui>()
             .AddDalamudService<ICommandManager>()
+            .AddDalamudService<ICondition>()
             .AddSingleton<ConfigurationService>()
             .AddSingleton<EmoteListener>()
             .AddSingleton<EmoteService>()

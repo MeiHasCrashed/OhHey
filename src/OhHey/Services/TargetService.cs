@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -14,6 +15,7 @@ public sealed class TargetService : IDisposable
     private readonly TargetListener _targetListener;
     private readonly IChatGui _chatGui;
     private readonly IClientState _clientState;
+    private readonly ICondition _condition;
     private readonly ConfigurationService _configService;
 
     public List<TargetEvent> CurrentTargets { get; } = [];
@@ -21,13 +23,14 @@ public sealed class TargetService : IDisposable
     public List<TargetEvent> TargetHistory { get; } = [];
 
     public TargetService(IPluginLog logger, TargetListener targetListener, IChatGui chatGui,
-        ConfigurationService configService, IClientState clientState)
+        ConfigurationService configService, IClientState clientState, ICondition condition)
     {
         _logger = logger;
         _targetListener = targetListener;
         _chatGui = chatGui;
         _configService = configService;
         _clientState = clientState;
+        _condition = condition;
 
         _targetListener.Target += OnTarget;
         _targetListener.TargetRemoved += OnTargetRemoved;
@@ -74,6 +77,8 @@ public sealed class TargetService : IDisposable
         if (!_configService.Configuration.EnableTargetNotifications) return;
 
         if (e.IsSelf && !_configService.Configuration.NotifyOnSelfTarget) return;
+        if (!_configService.Configuration.EnableTargetNotificationInCombat &&
+            _condition[ConditionFlag.InCombat]) return;
         SendNotification(e);
     }
 

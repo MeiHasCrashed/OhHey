@@ -23,7 +23,7 @@ public class ConfigurationWindow : Window
 
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(400, 300)
+            MinimumSize = new Vector2(400, 350)
         };
     }
 
@@ -65,6 +65,15 @@ public class ConfigurationWindow : Window
         }
 
         TargetSoundConfig();
+
+        ImGui.Separator();
+        ImGui.TextUnformatted("Combat Settings:");
+        var enableInDuty = Config.EnableTargetNotificationInCombat;
+        if (ImGui.Checkbox("Enable target notifications while in combat", ref enableInDuty))
+        {
+            Config.EnableTargetNotificationInCombat = enableInDuty;
+            _configService.Save();
+        }
 
         ImGui.Separator();
         ImGui.TextUnformatted("Self-target settings:");
@@ -144,6 +153,15 @@ public class ConfigurationWindow : Window
         }
 
         EmoteSoundConfig();
+
+        ImGui.Separator();
+        ImGui.TextUnformatted("Combat Settings:");
+        var enableInDuty = Config.EnableEmoteNotificationInCombat;
+        if (ImGui.Checkbox("Enable emote notifications while in combat", ref enableInDuty))
+        {
+            Config.EnableEmoteNotificationInCombat = enableInDuty;
+            _configService.Save();
+        }
 
         ImGui.Separator();
         ImGui.TextUnformatted("Self-emote settings:");
