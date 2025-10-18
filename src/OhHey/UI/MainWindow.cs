@@ -15,10 +15,11 @@ namespace OhHey.UI;
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
 public sealed class MainWindow : Window, IDisposable
 {
+    private const string SampleText = "00:00:00 A name that is 20 char used Emote Name here";
+
     private readonly TargetService _targetService;
     private readonly EmoteService _emoteService;
     private readonly ConfigurationService _configService;
-    private readonly float _textWidth;
 
     public MainWindow(TargetService targetService, EmoteService emoteService, ConfigurationService configurationService,
         ConfigurationWindow configWindow) : base("Oh Hey!##ohhey_main_window")
@@ -26,11 +27,10 @@ public sealed class MainWindow : Window, IDisposable
         _targetService = targetService;
         _emoteService = emoteService;
         _configService = configurationService;
-        _textWidth = ImGui.CalcTextSize("00:00:00 A name that is 20 char used Emote Name here").X;
 
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(_textWidth + ImGui.GetStyle().WindowPadding.X * 2, 310)
+            MinimumSize = new Vector2(361, 309)
         };
 
         RespectCloseHotkey = _configService.Configuration.EnableMainWindowCloseHotkey;
@@ -72,8 +72,9 @@ public sealed class MainWindow : Window, IDisposable
         }
         ImGui.Separator();
         const int length = EmoteService.MaxEmoteHistory + 1;
+        var textWidth = ImGui.CalcTextSize(SampleText).X;
         using var listBox = ImRaii.ListBox("##ohhey_emote_list",
-            new Vector2(_textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
+            new Vector2(textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
         if (!listBox) return;
         ImGui.PushItemWidth(-1);
         foreach (var emote in _emoteService.EmoteHistory)
@@ -96,7 +97,8 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.Separator();
         var length = Math.Clamp(_targetService.CurrentTargets.Count + _targetService.TargetHistory.Count + 1, 10, 20) +1;
 
-        using var listBox = ImRaii.ListBox("##ohhey_target_list", new Vector2(_textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
+        var textWidth = ImGui.CalcTextSize(SampleText).X;
+        using var listBox = ImRaii.ListBox("##ohhey_target_list", new Vector2(textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
         if (!listBox) return;
         ImGui.PushItemWidth(-1);
 
