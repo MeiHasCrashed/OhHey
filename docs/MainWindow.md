@@ -11,6 +11,8 @@
 </ol>
 </details>
 
+---
+
 ![Main Window](resources/MainWindowTargets.png)
 
 ## Overview

@@ -22,6 +22,7 @@
 </ol>
 </details>
 
+---
 
 ![Settings Window](resources/SettingsWindowGeneral.png)
 
