@@ -70,7 +70,7 @@ The targets tab includes all settings related to target notifications.
 
 **Default:** *enabled*
 
-If this is enabled, the plugin will notify you when someone targets you.
+If this is enabled, the plugin will notify you when someone targets you.\
 ![Target Notification](resources/TargetNotification.png)
 
 > [!CAUTION]
@@ -136,7 +136,7 @@ The emote tab contains all settings related to emote notifications.
 
 **Default:** *enabled*
 
-If this is enabled, the plugin will notify you when someone emotes at you.
+If this is enabled, the plugin will notify you when someone emotes at you.\
 ![Emote Notification](resources/EmoteNotification.png)
 
 > [!CAUTION]
