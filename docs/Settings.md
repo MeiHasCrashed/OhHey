@@ -1,8 +1,32 @@
-﻿# Settings Window
+﻿# Settings
+
+<details open>
+<summary>
+    <span>Table of Contents</span>
+</summary>
+<ol>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#general-settings">General Settings</a></li>
+    <li><a href="#target-settings">Target Settings</a></li>
+    <ol>
+        <li><a href="#notification-settings">Notification Settings</a></li>
+        <li><a href="#combat-settings">Combat Settings</a></li>
+        <li><a href="#self-target-settings">Self-target Settings</a></li>
+    </ol>
+    <li><a href="#emote-settings">Emote Settings</a></li>
+    <ol>
+        <li><a href="#notification-settings-1">Notification Settings</a></li>
+        <li><a href="#combat-settings-1">Combat Settings</a></li>
+        <li><a href="#self-target-settings-1">Self-target Settings</a></li>
+    </ol>
+</ol>
+</details>
+
 
 ![Settings Window](resources/SettingsWindowGeneral.png)
 
 ## Overview
+<sup>[[Back to top]](#settings)</sup>
 
 You can open the settings window by using the command `/ohhey settings` (or `/ohhey config` if you prefer),
 by pressing the cogwheel in the tile bar of the main window or by using the `Settings` button in the plugin installer (`/xlplugins`).
@@ -14,6 +38,7 @@ The settings window has 3 categories:
 - [Emotes](#emote-settings)
 
 ## General Settings
+<sup>[[Back to top]](#settings)</sup>
 
 The general settings mainly include some miscellaneous settings that aren't directly related to the other categories.
 
@@ -31,12 +56,14 @@ If this box is unchecked the window can only be closed by using the `X` button i
 
 
 ## Target Settings
+<sup>[[Back to top]](#settings)</sup>
 
 The targets tab includes all settings related to target notifications.
 
 ![Target Settings](resources/SettingsWindowTargets.png)
 
 ### Notification Settings
+<sup>[[Back to top]](#settings)</sup>
 
 <ins>***Enable target notifications***</ins>
 
@@ -65,6 +92,7 @@ The sound options are the same that you can also use in chat with `<se.1>` to `<
 > If you want to hear the currently selected sound you can press the play button next to the selector.
 
 ### Combat Settings
+<sup>[[Back to top]](#settings)</sup>
 
 <ins>***Enable target notifications while in combat***</ins>
 
@@ -76,6 +104,7 @@ If this is enabled, you will receive notifications if someone targets you while 
 > This is disabled by default, so you don't get spammed with notifications if a healer tries to heal you for example.
 
 ### Self-target Settings
+<sup>[[Back to top]](#settings)</sup>
 
 <ins>***Show self-targeting in target list***</ins>
 
@@ -93,12 +122,14 @@ If this is enabled, the plugin will additionally notify you if you target yourse
 > \- Mei
 
 ## Emote Settings
+<sup>[[Back to top]](#settings)</sup>
 
 The emote tab contains all settings related to emote notifications.
 
 ![Emote Settings](resources/SettingsWindowEmotes.png)
 
 ### Notification Settings
+<sup>[[Back to top]](#settings)</sup>
 
 <ins>***Enable emote notifications***</ins>
 
@@ -127,6 +158,7 @@ The sound options are the same that you can also use in chat with `<se.1>` to `<
 > If you want to hear the currently selected sound you can press the play button next to the selector.
 
 ### Combat Settings
+<sup>[[Back to top]](#settings)</sup>
 
 <ins>***Enable emote notifications while in combat***</ins>
 
@@ -135,6 +167,7 @@ The sound options are the same that you can also use in chat with `<se.1>` to `<
 If this is enabled, you will receive notifications if someone emotes at you while you are in combat.
 
 ### Self-target Settings
+<sup>[[Back to top]](#settings)</sup>
 
 <ins>***Show self-emote in history***</ins>
 
