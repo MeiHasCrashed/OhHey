@@ -22,7 +22,7 @@
 </ol>
 </details>
 
-<h1>​</h1>
+<h5>​</h5>
 
 ![Settings Window](resources/SettingsWindowGeneral.png)
 
