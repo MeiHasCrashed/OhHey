@@ -11,7 +11,7 @@
 </ol>
 </details>
 
----
+<h1>​</h1>
 
 ![Main Window](resources/MainWindowTargets.png)
 
