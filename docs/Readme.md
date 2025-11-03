@@ -1,4 +1,4 @@
-﻿<h1> <img src="resources/Logo.png" width="64" alt="Oh Hey! Logo" align="center"> Oh Hey! Documentation</h1>
+﻿<h1><img src="resources/Logo.png" width="64" alt="Oh Hey! Logo" align="center"> Oh Hey! Documentation</h1>
 
 ## Overview
 
@@ -13,12 +13,12 @@ Additionally it tracks the most recent notification events with a simple interfa
 
 The documentation for the main window can be found here:
 
-[**Main Window**](/MainWindow.md)
+[**Main Window**](MainWindow.md)
 
 ## Settings
 The documentation for all plugin settings can be found here:
 
-[**Settings**](/Settings.md)
+[**Settings**](Settings.md)
 
 ## Commands
 
