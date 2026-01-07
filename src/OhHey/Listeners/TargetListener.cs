@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Diagnostics;
-using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Plugin.Services;
 
@@ -45,7 +44,7 @@ public sealed class TargetListener : IDisposable
 
     private void CheckForTargets()
     {
-        var currentPlayer = _clientState.LocalPlayer;
+        var currentPlayer = _objectTable.LocalPlayer;
         if (currentPlayer == null) return;
 
         var targetingPlayers = _objectTable.PlayerObjects

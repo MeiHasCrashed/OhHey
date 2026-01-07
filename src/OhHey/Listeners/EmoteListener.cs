@@ -12,7 +12,6 @@ namespace OhHey.Listeners;
 public sealed class EmoteListener : IDisposable
 {
     private readonly IPluginLog _logger;
-    private readonly IClientState _clientState;
     private readonly IObjectTable _objectTable;
     private readonly IDataManager _dataManager;
 
@@ -26,10 +25,9 @@ public sealed class EmoteListener : IDisposable
     [Signature("E8 ?? ?? ?? ?? 48 8D 8B ?? ?? ?? ?? 4C 89 74 24", DetourName = nameof(OnEmoteHook))]
     private readonly Hook<OnEmoteDelegate>? _onEmoteHook = null!;
 
-    public EmoteListener(IPluginLog logger, IGameInteropProvider interopProvider, IClientState clientState, IObjectTable objectTable, IDataManager dataManager)
+    public EmoteListener(IPluginLog logger, IGameInteropProvider interopProvider, IObjectTable objectTable, IDataManager dataManager)
     {
         _logger = logger;
-        _clientState = clientState;
         _objectTable = objectTable;
         _dataManager = dataManager;
 
@@ -61,7 +59,7 @@ public sealed class EmoteListener : IDisposable
     private void HandleEmoteEvent(IntPtr initiatorAddress, ushort emoteId, ulong targetId)
     {
         // We aren't logged in, somehow ??
-        var localPlayer = _clientState.LocalPlayer;
+        var localPlayer = _objectTable.LocalPlayer;
         if (localPlayer is null)
         {
             return;
