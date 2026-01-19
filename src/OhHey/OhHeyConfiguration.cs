@@ -13,6 +13,8 @@ public class OhHeyConfiguration : IPluginConfiguration
 
     public bool EnableMainWindowCloseHotkey { get; set; } = false;
 
+    public bool ShowInDtrBar { get; set; } = false;
+
     // Target Settings
     public bool EnableTargetNotifications { get; set; } = true;
 

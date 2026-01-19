@@ -21,6 +21,8 @@ public sealed class KeyedWindowService(IPluginLog logger, IDalamudPluginInterfac
     private void ToggleMainWindow() => mainWindow.Toggle();
     private void ToggleConfigWindow() => configWindow.Toggle();
 
+    public void OpenMainWindow() => mainWindow.IsOpen = true;
+
     public void Dispose()
     {
         pluginInterface.UiBuilder.OpenMainUi -= ToggleMainWindow;
