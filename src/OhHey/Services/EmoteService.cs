@@ -3,6 +3,7 @@
 
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using OhHey.Listeners;
@@ -73,7 +74,7 @@ public sealed class EmoteService : IDisposable
         var chatMessage = new SeStringBuilder()
             .AddUiForeground("[Oh Hey!] ", 537)
             .AddUiForegroundOff()
-            .Append(e.InitiatorName)
+            .Add(new PlayerPayload(e.InitiatorName.ToString(), e.InitiatorWorldId))
             .AddText($" used ")
             .AddUiForeground(e.EmoteName.ToString(), 1)
             .AddUiForegroundOff()
