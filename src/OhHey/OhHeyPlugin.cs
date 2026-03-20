@@ -31,11 +31,13 @@ public sealed class OhHeyPlugin : IDalamudPlugin
             .AddDalamudService<IChatGui>()
             .AddDalamudService<ICommandManager>()
             .AddDalamudService<ICondition>()
+            .AddDalamudService<IDtrBar>()
             .AddSingleton<ConfigurationService>()
             .AddSingleton<EmoteListener>()
             .AddSingleton<EmoteService>()
             .AddSingleton<TargetListener>()
             .AddSingleton<TargetService>()
+            .AddSingleton<DtrBarService>()
             .AddDalamudWindow<ConfigurationWindow>()
             .AddDalamudWindow<MainWindow>()
             .AddSingleton<KeyedWindowService>()
@@ -45,6 +47,7 @@ public sealed class OhHeyPlugin : IDalamudPlugin
         _provider = services.BuildServiceProvider();
         _ = _provider.GetRequiredService<WindowService>();
         _ = _provider.GetRequiredService<ChatCommandService>();
+        _ = _provider.GetRequiredService<DtrBarService>();
     }
 
     public void Dispose()

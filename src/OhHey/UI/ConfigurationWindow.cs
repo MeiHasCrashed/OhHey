@@ -42,10 +42,20 @@ public class ConfigurationWindow : Window
         using var tabItem = ImRaii.TabItem("General##ohhey_config_tab_general");
         if (!tabItem) return;
 
+        ImGui.TextUnformatted("Main Window Settings:");
         var enableCloseHotkey = Config.EnableMainWindowCloseHotkey;
         if (ImGui.Checkbox("Enable closing the main window with ESC", ref enableCloseHotkey))
         {
             Config.EnableMainWindowCloseHotkey = enableCloseHotkey;
+            _configService.Save();
+        }
+
+        ImGui.Separator();
+        ImGui.TextUnformatted("Server Bar Settings:");
+        var showInDtrBar = Config.ShowInDtrBar;
+        if (ImGui.Checkbox("Show the number of people targeting you in the server bar", ref showInDtrBar))
+        {
+            Config.ShowInDtrBar = showInDtrBar;
             _configService.Save();
         }
     }
