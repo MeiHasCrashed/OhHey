@@ -45,6 +45,8 @@ The general settings mainly include some miscellaneous settings that aren't dire
 
 ![General Settings](resources/SettingsWindowGeneral.png)
 
+### Main Window Settings
+
 <ins>***Enable closing the main window with ESC*** </ins>
 
 **Default:** *disabled*
@@ -55,6 +57,18 @@ If this box is unchecked the window can only be closed by using the `X` button i
 > [!CAUTION]
 > If you enable this setting, the main window will not work as an overlay anymore.
 
+### Server Bar Settings
+
+<ins>***Show the number of people targeting you in the server bar***</ins>
+
+![Server Bar Icon](resources/ServerBarIcon.png)\
+*(The icon in the server bar)*
+
+**Default:** *disabled*
+
+This setting enables or disables the display of the number of people currently targeting you in the server bar.\
+When you hover over it, you will see a list of people targeting you.\
+Additionally you can click on the icon in the server bar to open the plugin's main window.
 
 ## Target Settings
 <sup>[[Back to top]](#settings)</sup>
@@ -71,6 +85,7 @@ The targets tab includes all settings related to target notifications.
 **Default:** *enabled*
 
 If this is enabled, the plugin will notify you when someone targets you.\
+Additionally, the player name in the notification is clickable in chat.\
 ![Target Notification](resources/TargetNotification.png)
 
 > [!CAUTION]
@@ -137,6 +152,7 @@ The emote tab contains all settings related to emote notifications.
 **Default:** *enabled*
 
 If this is enabled, the plugin will notify you when someone emotes at you.\
+Additionally, the player name in the notification is clickable in chat.\
 ![Emote Notification](resources/EmoteNotification.png)
 
 > [!CAUTION]

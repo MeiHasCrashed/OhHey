@@ -4,9 +4,9 @@
     "net10.0-windows7.0": {
       "DalamudPackager": {
         "type": "Direct",
-        "requested": "[14.0.1, )",
-        "resolved": "14.0.1",
-        "contentHash": "y0WWyUE6dhpGdolK3iKgwys05/nZaVf4ZPtIjpLhJBZvHxkkiE23zYRo7K7uqAgoK/QvK5cqF6l3VG5AbgC6KA=="
+        "requested": "[14.0.2, )",
+        "resolved": "14.0.2",
+        "contentHash": "dQJeq+8eyHzra4Cg5eZ/3LAeS3/UpvvLriYJGSncMK9LqJ7Q4B6jwcOsxo3PfxVd15xj+IzVFxkPqIBmPQu8/w=="
       },
       "DotNet.ReproducibleBuilds": {
         "type": "Direct",
@@ -22,17 +22,17 @@
       },
       "Microsoft.Extensions.DependencyInjection": {
         "type": "Direct",
-        "requested": "[10.0.1, )",
-        "resolved": "10.0.1",
-        "contentHash": "zerXV0GAR9LCSXoSIApbWn+Dq1/T+6vbXMHGduq1LoVQRHT0BXsGQEau0jeLUBUcsoF/NaUT8ADPu8b+eNcIyg==",
+        "requested": "[10.0.5, )",
+        "resolved": "10.0.5",
+        "contentHash": "v1SVsowG6YE1YnHVGmLWz57YTRCQRx9pH5ebIESXfm5isI9gA3QaMyg/oMTzPpXYZwSAVDzYItGJKfmV+pqXkQ==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.1"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.5"
         }
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "Transitive",
-        "resolved": "10.0.1",
-        "contentHash": "oIy8fQxxbUsSrrOvgBqlVgOeCtDmrcynnTG+FQufcUWBrwyPfwlUkCDB2vaiBeYPyT+20u9/HeuHeBf+H4F/8g=="
+        "resolved": "10.0.5",
+        "contentHash": "iVMtq9eRvzyhx8949EGT0OCYJfXi737SbRVzWXE5GrOgGj5AaZ9eUuxA/BSUfmOMALKn/g8KfFaNQw0eiB3lyA=="
       }
     }
   }
