@@ -86,7 +86,7 @@ public sealed class EmoteListener : IDisposable
         var targetSelf = targetId == localPlayer.GameObjectId;
         var initiatorIsSelf = initiator.GameObjectId == localPlayer.GameObjectId;
 
-        var emoteEvent = new EmoteEvent(emote.Name, emoteId, initiator.Name, initiator.GameObjectId, target?.Name,
+        var emoteEvent = new EmoteEvent(emote.Name, emoteId, initiator.Name, initiator.HomeWorld.RowId, initiator.GameObjectId, target?.Name,
             targetId, targetSelf, initiatorIsSelf, DateTime.Now);
         OnEmote(emoteEvent);
     }

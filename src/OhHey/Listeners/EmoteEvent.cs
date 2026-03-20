@@ -10,6 +10,7 @@ public record EmoteEvent(
     ReadOnlySeString EmoteName,
     ushort EmoteId,
     SeString InitiatorName,
+    uint InitiatorWorldId,
     ulong InitiatorId,
     SeString? TargetName,
     ulong TargetId,

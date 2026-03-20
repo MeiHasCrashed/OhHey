@@ -3,6 +3,7 @@
 
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using OhHey.Listeners;
@@ -116,7 +117,7 @@ public sealed class TargetService : IDisposable
         var chatMessage = new SeStringBuilder()
             .AddUiForeground("[Oh Hey!] ", 537)
             .AddUiForegroundOff()
-            .Append(evt.SeName)
+            .Add(new PlayerPayload(evt.Name, evt.WorldId))
             .AddText(" is targeting you!")
             .Build();
         _chatGui.Print(chatMessage);

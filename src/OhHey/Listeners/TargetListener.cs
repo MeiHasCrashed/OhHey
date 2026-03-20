@@ -53,6 +53,7 @@ public sealed class TargetListener : IDisposable
                 ? IsLocalPlayerTargeting(currentPlayer.GameObjectId)
                 : chara.TargetObjectId == currentPlayer.GameObjectId
             )
+            .Select(player => (player as IPlayerCharacter)!)
             .ToList();
 
         // If we have no players currently targeting us, we can clear the old list directly.
@@ -67,7 +68,7 @@ public sealed class TargetListener : IDisposable
         {
             _lastTargetingPlayers.Add(targetingPlayer.GameObjectId);
             var targetEvent = new TargetEvent(targetingPlayer.GameObjectId, targetingPlayer.Name.ToString(),
-                targetingPlayer.Name, targetingPlayer.GameObjectId == currentPlayer.GameObjectId, DateTime.Now);
+                targetingPlayer.HomeWorld.RowId, targetingPlayer.GameObjectId == currentPlayer.GameObjectId, DateTime.Now);
             OnTarget(targetEvent);
         }
 
